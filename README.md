@@ -13,8 +13,8 @@ manual atau koneksi internet (inference berjalan langsung di perangkat).
 
 | Nama | Peran |
 |---|---|
-| [Nama Anda] | Machine Learning Engineer — dataset, training model, evaluasi |
-| [Nama Teman] | Mobile Developer — desain UI/UX, integrasi model ke aplikasi Flutter |
+| [Ferry Chandra Yudhistira] | Machine Learning Engineer — dataset, training model, evaluasi |
+| [Radot] | Mobile Developer — desain UI/UX, integrasi model ke aplikasi Flutter |
 
 ---
 

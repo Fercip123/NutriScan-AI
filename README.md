@@ -172,8 +172,8 @@ Alur di aplikasi:
 
 | Nama                       | Peran                                                                |
 | -------------------------- | -------------------------------------------------------------------- |
-| [Ferry Chandra Yudhistira] | Machine Learning Engineer — dataset, training model, evaluasi        |
-| [Radot]                    | Mobile Developer — desain UI/UX, integrasi model ke aplikasi Flutter |
+| Ferry Chandra Yudhistira | Machine Learning Engineer — dataset, training model, evaluasi        |
+| Radot                    | Mobile Developer — desain UI/UX, integrasi model ke aplikasi Flutter |
 
 ---
 

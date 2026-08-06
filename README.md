@@ -246,5 +246,5 @@ Model saat ini mengenali **5 jenis makanan**: Nasi Goreng, Ayam Goreng, Nasi Pad
 ---
 
 ## 📄 Lisensi
-[MIT License](.LICENSE)
+[MIT License](LICENSE)
 7eb260404507bf4c0c4eafc78893ae5a775d253d

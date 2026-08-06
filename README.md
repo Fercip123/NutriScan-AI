@@ -2,7 +2,6 @@
 
 **Aplikasi Mobile Berbasis Machine Learning untuk Menganalisis Kandungan Gizi Makanan dari Foto**
 
-HEAD
 Repo ini berisi program **backend Machine Learning (Python)** untuk NutriScan AI — bagian
 "otak" dari aplikasi mobile yang mengenali jenis makanan dari foto (Image Recognition)
 lalu menampilkan estimasi kandungan gizinya, guna membantu pengguna menjaga pola makan sehat.

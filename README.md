@@ -11,26 +11,24 @@ lalu menampilkan estimasi kandungan gizinya, guna membantu pengguna menjaga pola
 ## 📁 Struktur Project
 
 ```
-nutriscan_ai/
-├── dataset/                  # Folder dataset foto makanan (per kelas per folder)
-│   ├── nasi_goreng/
-│   ├── ayam_goreng/
-│   ├── sayur_bayam/
-│   ├── tempe_goreng/
-│   └── telur_dadar/
-├── model/                    # Output model hasil training
-│   ├── nutriscan_model.keras     # Model Keras (untuk server/testing)
-│   ├── nutriscan_model.tflite    # Model TFLite (untuk deploy ke Android/iOS)
-│   ├── labels.txt                # Daftar label kelas
-│   └── metadata.json             # Info training (akurasi, ukuran gambar, dll)
-├── src/
-│   ├── nutrition_db.py       # Database kandungan gizi tiap makanan
-│   ├── train_model.py        # Script training model (Transfer Learning MobileNetV2)
-│   ├── predict.py            # Script prediksi pakai model Keras
-│   └── predict_tflite.py     # Script prediksi pakai model TFLite (simulasi mobile)
-├── output/                   # Hasil prediksi (JSON) tersimpan di sini
-├── requirements.txt
-└── README.md
+nutriscan-ai/
+├── ml-model/              # Bagian Machine Learning
+│   ├── dataset/           # Dataset foto makanan per kelas
+│   │   ├── nasi_goreng/
+│   │   ├── ayam_goreng/
+│   │   ├── nasi_padang/
+│   │   ├── gado_gado/
+│   │   └── tempe_goreng/
+│   ├── model/              # Output model (.tflite, labels.txt, dll)
+│   ├── src/                 # Script training & prediksi (Python)
+│   └── README.md            # Dokumentasi khusus bagian ML
+│
+├── flutter-app/            # Bagian Aplikasi Mobile
+│   ├── lib/                  # Kode Dart aplikasi
+│   ├── assets/                # Model .tflite, labels.txt, nutrition_db.json
+│   └── README.md               # Dokumentasi khusus bagian aplikasi
+│
+└── README.md                # Dokumentasi utama (file ini)
 ```
 
 ---
@@ -185,24 +183,6 @@ Alur di aplikasi:
 4. Aplikasi menampilkan kalori, protein, karbohidrat, lemak, dan catatan kesehatan terkait
 
 ---
-
-## 📁 Struktur Repository
-
-```
-nutriscan-ai/
-├── ml-model/              # Bagian Machine Learning
-│   ├── dataset/           # Dataset foto makanan per kelas
-│   ├── model/              # Output model (.tflite, labels.txt, dll)
-│   ├── src/                 # Script training & prediksi (Python)
-│   └── README.md            # Dokumentasi khusus bagian ML
-│
-├── flutter-app/            # Bagian Aplikasi Mobile
-│   ├── lib/                  # Kode Dart aplikasi
-│   ├── assets/                # Model .tflite, labels.txt, nutrition_db.json
-│   └── README.md               # Dokumentasi khusus bagian aplikasi
-│
-└── README.md                # Dokumentasi utama (file ini)
-```
 
 ---
 

@@ -1,0 +1,14 @@
+{
+  "class_names": [
+    "ayam_goreng",
+    "gado_gado",
+    "nasi_goreng",
+    "nasi_padang",
+    "tempe_goreng"
+  ],
+  "img_size": [
+    224,
+    224
+  ],
+  "final_val_accuracy": 0.8470873832702637
+}

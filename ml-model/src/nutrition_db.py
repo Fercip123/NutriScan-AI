@@ -1,0 +1,96 @@
+"""
+nutrition_db.py
+----------------
+Database kandungan gizi makanan (contoh: makanan khas Indonesia)
+Nilai gizi dihitung per 1 porsi standar (bukan per 100g) agar
+langsung relevan untuk pengguna aplikasi.
+
+Untuk pengembangan nyata, database ini sebaiknya:
+- Diambil dari API resmi (mis. USDA FoodData Central / TKPI - Kemenkes RI)
+- Disimpan di database (Firebase / PostgreSQL), bukan file statis
+"""
+
+NUTRITION_DB = {
+    "nasi_goreng": {
+        "nama": "Nasi Goreng",
+        "porsi": "1 piring (±250g)",
+        "kalori_kcal": 450,
+        "karbohidrat_g": 65,
+        "protein_g": 12,
+        "lemak_g": 15,
+        "serat_g": 2,
+        "gula_g": 3,
+        "natrium_mg": 850,
+        "kategori": "Karbohidrat tinggi",
+        "catatan_sehat": "Tinggi natrium. Batasi konsumsi jika memiliki tekanan darah tinggi."
+    },
+    "ayam_goreng": {
+        "nama": "Ayam Goreng",
+        "porsi": "1 potong (±150g)",
+        "kalori_kcal": 320,
+        "karbohidrat_g": 8,
+        "protein_g": 28,
+        "lemak_g": 20,
+        "serat_g": 0,
+        "gula_g": 0,
+        "natrium_mg": 480,
+        "kategori": "Protein tinggi",
+        "catatan_sehat": "Sumber protein baik, namun tinggi lemak jenuh akibat proses goreng."
+    },
+    "nasi_padang": {
+        "nama": "Nasi Padang",
+        "porsi": "1 bungkus/piring (±380g, nasi + 1 lauk + sayur + kuah)",
+        "kalori_kcal": 664,
+        "karbohidrat_g": 70,
+        "protein_g": 70,
+        "lemak_g": 15,
+        "serat_g": 3,
+        "gula_g": 4,
+        "natrium_mg": 950,
+        "kategori": "Karbohidrat & protein tinggi",
+        "catatan_sehat": "Kalori sangat bervariasi tergantung lauk (500-1000+ kkal). Kuah santan & lauk goreng (rendang, gulai) menambah lemak jenuh signifikan. Pilih lauk bakar/rebus dan batasi kuah untuk versi lebih sehat."
+    },
+    "gado_gado": {
+        "nama": "Gado-Gado",
+        "porsi": "1 porsi (±241g, sayur + lontong + bumbu kacang)",
+        "kalori_kcal": 318,
+        "karbohidrat_g": 26,
+        "protein_g": 17,
+        "lemak_g": 18,
+        "serat_g": 5,
+        "gula_g": 5,
+        "natrium_mg": 600,
+        "kategori": "Sayuran & protein nabati",
+        "catatan_sehat": "Kaya serat dan protein nabati dari sayur, tahu, tempe. Kalori & lemak sebagian besar berasal dari bumbu kacang — batasi porsi bumbu untuk versi lebih rendah kalori."
+    },
+    "tempe_goreng": {
+        "nama": "Tempe Goreng",
+        "porsi": "3 potong (±90g)",
+        "kalori_kcal": 200,
+        "karbohidrat_g": 12,
+        "protein_g": 14,
+        "lemak_g": 11,
+        "serat_g": 3,
+        "gula_g": 0,
+        "natrium_mg": 150,
+        "kategori": "Protein nabati",
+        "catatan_sehat": "Sumber protein nabati & probiotik baik untuk pencernaan."
+    },
+}
+
+
+def get_nutrition_info(label: str) -> dict:
+    """Ambil info gizi berdasarkan label hasil prediksi model."""
+    return NUTRITION_DB.get(label, {
+        "nama": "Tidak diketahui",
+        "porsi": "-",
+        "kalori_kcal": 0,
+        "karbohidrat_g": 0,
+        "protein_g": 0,
+        "lemak_g": 0,
+        "serat_g": 0,
+        "gula_g": 0,
+        "natrium_mg": 0,
+        "kategori": "-",
+        "catatan_sehat": "Data gizi belum tersedia untuk makanan ini."
+    })

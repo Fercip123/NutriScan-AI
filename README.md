@@ -78,11 +78,11 @@ Lihat panduan lengkap di [`flutter-app/README.md`](./flutter-app/README.md) — 
 
 ##  Status Proyek
 
-Proyek ini merupakan bagian dari [konteks proyek Anda, misal: tugas kuliah/capstone project/dsb — sesuaikan].
+Proyek ini merupakan bagian dari Tugas Kuliah.
 Model saat ini mengenali **5 jenis makanan**: Nasi Goreng, Ayam Goreng, Nasi Padang, Gado-Gado, dan Tempe Goreng, dengan akurasi validasi ±85%.
 
 ---
 
 ##  Lisensi
 
-[Sesuaikan, misal: MIT License — atau kosongkan dulu bila belum ditentukan]
+[MIT LICENSE](LICENSE)

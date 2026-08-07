@@ -1,6 +1,6 @@
-# 🥗 NutriScan AI — Bagian Machine Learning
+#  NutriScan AI — Bagian Machine Learning
 
-> 📌 Ini adalah dokumentasi khusus bagian **Machine Learning**. Untuk gambaran umum seluruh proyek (termasuk aplikasi Flutter), lihat [README utama](../README.md).
+>  Ini adalah dokumentasi khusus bagian **Machine Learning**. Untuk gambaran umum seluruh proyek (termasuk aplikasi Flutter), lihat [README utama](../README.md).
 
 **Aplikasi Mobile Berbasis Machine Learning untuk Menganalisis Kandungan Gizi Makanan dari Foto**
 
@@ -10,7 +10,7 @@ lalu menampilkan estimasi kandungan gizinya, guna membantu pengguna menjaga pola
 
 ---
 
-## 📁 Struktur Project
+##  Struktur Project
 
 ```
 ml-model/
@@ -37,7 +37,7 @@ ml-model/
 
 ---
 
-## 🧠 Pendekatan Machine Learning
+##  Pendekatan Machine Learning
 
 | Aspek | Detail |
 |---|---|
@@ -50,7 +50,7 @@ ml-model/
 
 ---
 
-## 🚀 Cara Menjalankan
+##  Cara Menjalankan
 
 ### 1. Install dependencies
 ```bash
@@ -65,7 +65,7 @@ dataset/nasi_goreng/foto2.jpg
 dataset/ayam_goreng/foto1.jpg
 ...
 ```
-> 💡 Disarankan **minimal 100–300 foto per kelas** dengan variasi sudut & pencahayaan
+>  Disarankan **minimal 100–300 foto per kelas** dengan variasi sudut & pencahayaan
 > agar model akurat. Untuk menambah kelas makanan baru, cukup buat folder baru di
 > `dataset/` dan tambahkan datanya di `nutrition_db.py`.
 
@@ -112,7 +112,7 @@ format inilah yang nantinya dikonsumsi oleh aplikasi mobile (Android/iOS/Flutter
 
 ---
 
-## 📱 Integrasi ke Aplikasi Mobile
+##  Integrasi ke Aplikasi Mobile
 
 File `model/nutriscan_model.tflite` adalah output final yang dipakai di sisi mobile:
 
@@ -129,7 +129,7 @@ Alur di aplikasi:
 
 ---
 
-## 🔧 Pengembangan Lanjutan (Rekomendasi)
+##  Pengembangan Lanjutan (Rekomendasi)
 
 - Ganti `nutrition_db.py` dengan data resmi dari **TKPI (Tabel Komposisi Pangan
   Indonesia - Kemenkes)** atau **USDA FoodData Central** agar lebih akurat & lengkap.
@@ -146,7 +146,7 @@ Alur di aplikasi:
 
 ---
 
-## ⚠️ Catatan Penting
+##  Catatan Penting
 
 - Kode ini adalah **prototipe/backbone ML**, bukan aplikasi mobile jadi. Untuk
   aplikasi mobile utuh, model `.tflite` ini perlu diintegrasikan ke project

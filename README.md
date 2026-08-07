@@ -1,230 +1,68 @@
-# 🥗 NutriScan AI
+# NutriScan AI
 
-**Aplikasi Mobile Berbasis Machine Learning untuk Menganalisis Kandungan Gizi Makanan dari Foto**
+**Aplikasi Mobile Berbasis Machine Learning untuk Menganalisis Kandungan Gizi Makanan dari Foto.**
 
-Repo ini berisi program **backend Machine Learning (Python)** untuk NutriScan AI — bagian
-"otak" dari aplikasi mobile yang mengenali jenis makanan dari foto (Image Recognition)
-lalu menampilkan estimasi kandungan gizinya, guna membantu pengguna menjaga pola makan sehat.
+- **Manfaat:** Membantu menjaga pola makan sehat dengan memindai foto makanan dan mendapatkan informasi gizi + penilaian kesehatan secara instan.
+- **Machine Learning:** Image Recognition (klasifikasi gambar makanan) menggunakan TensorFlow Lite, dijalankan *on-device* di aplikasi Flutter.
 
----
-
-## 📁 Struktur Project
-
+## Struktur Proyek
 ```
-nutriscan-ai/
-├── ml-model/              # Bagian Machine Learning
-│   ├── dataset/           # Dataset foto makanan per kelas
-│   │   ├── nasi_goreng/
-│   │   ├── ayam_goreng/
-│   │   ├── nasi_padang/
-│   │   ├── gado_gado/
-│   │   └── tempe_goreng/
-│   ├── model/              # Output model (.tflite, labels.txt, dll)
-│   ├── src/                 # Script training & prediksi (Python)
-│   └── README.md            # Dokumentasi khusus bagian ML
-│
-├── flutter-app/            # Bagian Aplikasi Mobile
-│   ├── lib/                  # Kode Dart aplikasi
-│   ├── assets/                # Model .tflite, labels.txt, nutrition_db.json
-│   └── README.md               # Dokumentasi khusus bagian aplikasi
-│
-└── README.md                # Dokumentasi utama (file ini)
+NutriScanAI/
+├── backend/          → REST API PHP + MySQL (lihat backend/README.md)
+└── flutter_app/       → Aplikasi mobile Flutter
 ```
 
----
+## Kesesuaian dengan Alur Pembuatan (PDF)
 
-## 🧠 Pendekatan Machine Learning
+| # | Tahap                     | Lokasi di Proyek Ini                                             |
+|---|----------------------------|--------------------------------------------------------------------|
+| 1 | Analisis Kebutuhan          | Deskripsi tujuan, fitur & pengguna (dokumen ini)                   |
+| 2 | Perancangan UI/UX            | `flutter_app/lib/screens/*` (mengikuti mockup: splash, login, dashboard, scan, hasil, riwayat, tips, profil) |
+| 3 | Perancangan Database          | `backend/sql/nutriscan.sql` (tabel `users`, `foods`, `history`)     |
+| 4 | Pembuatan Backend              | `backend/api/*` (REST API PHP: login, register, foods, history, profile) |
+| 5 | Pembuatan Frontend Flutter      | `flutter_app/lib/screens/*`, terhubung ke API via `lib/services/api_service.dart` |
+| 6 | Integrasi Kamera                 | `flutter_app/lib/screens/scan_screen.dart` (plugin `image_picker`)  |
+| 7 | Integrasi AI                      | `flutter_app/lib/services/ml_service.dart` (TensorFlow Lite, on-device inference) |
+| 8 | Pengambilan Data Gizi               | `backend/api/foods/classify.php` (label AI → data gizi di MySQL)   |
+| 9 | Penyimpanan Riwayat                  | `backend/api/history/index.php` (POST) menyimpan hasil scan ke MySQL |
+| 10| Pengujian                             | Lihat bagian "Pengujian" di bawah                                   |
+| 11| Deploy                                 | `backend/README.md` bagian "Deploy ke Hostinger"; build APK Flutter |
+| 12| Pemeliharaan                            | Perbaikan bug & penambahan fitur berkelanjutan                     |
 
-| Aspek                        | Detail                                                                                                      |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **Task**                     | Image Classification (Image Recognition)                                                                    |
-| **Arsitektur**               | Transfer Learning dari **MobileNetV2** (pre-trained ImageNet)                                               |
-| **Alasan pilih MobileNetV2** | Ringan, cepat, dan didesain khusus untuk perangkat mobile                                                   |
-| **Output akhir**             | Model `.tflite` — siap dijalankan **langsung di HP** (on-device, offline, tanpa perlu kirim foto ke server) |
-| **Strategi training**        | 2 tahap: (1) latih classifier head, (2) fine-tuning sebagian layer akhir MobileNetV2                        |
-| **Augmentasi data**          | Flip, rotasi, zoom, kontras — agar model tahan terhadap variasi foto asli dari pengguna                     |
+## Cara Menjalankan
 
----
+### 1. Backend
+Lihat `backend/README.md` untuk setup database & REST API (lokal via XAMPP/Laragon, atau deploy ke Hostinger).
 
-## 🚀 Cara Menjalankan
-
-### 1. Install dependencies
-
+### 2. Flutter App
 ```bash
-pip install -r requirements.txt
+cd flutter_app
+flutter pub get
+flutter run
 ```
+Sebelum menjalankan:
+1. Sesuaikan `baseUrl` di `lib/services/api_service.dart` dengan alamat backend Anda.
+2. Letakkan model hasil training Anda di `assets/models/food_model.tflite` (lihat bagian "Model AI" di bawah). Label kelas ada di `assets/models/labels.txt`.
 
-### 2. Siapkan dataset
+## Model AI (Image Recognition)
+Proyek ini menyediakan kerangka integrasi TensorFlow Lite (`lib/services/ml_service.dart`) yang:
+1. Memuat model `food_model.tflite` beserta `labels.txt` saat splash screen.
+2. Melakukan preprocessing gambar (resize 224x224, normalisasi 0–1).
+3. Menjalankan inferensi on-device dan mengambil label dengan probabilitas tertinggi.
+4. Mengirim label tersebut ke backend (`/foods/classify.php`) untuk mengambil data gizi lengkap.
 
-Masukkan foto makanan ke folder sesuai kelasnya di `dataset/`, contoh:
+**Anda perlu melatih model sendiri** (mis. dengan transfer learning MobileNetV2 di TensorFlow/Keras, lalu dikonversi ke `.tflite`) menggunakan dataset foto makanan sesuai label pada `labels.txt`, atau menambah/menyesuaikan label & data gizi di `backend/sql/nutriscan.sql` sesuai dataset Anda.
 
-```
-dataset/nasi_goreng/foto1.jpg
-dataset/nasi_goreng/foto2.jpg
-dataset/ayam_goreng/foto1.jpg
-...
-```
+## Pengujian (Tahap 10)
+Rekomendasi pengujian sebelum deploy:
+- **Unit/API testing:** gunakan Postman/Insomnia untuk menguji setiap endpoint di `backend/api/`.
+- **Pengujian AI:** uji akurasi model dengan data uji terpisah dari data training.
+- **Pengujian UI:** `flutter test` untuk widget test dasar, serta pengujian manual di berbagai ukuran layar.
+- **Black-box testing:** uji alur end-to-end sebagai pengguna (register → login → scan → simpan riwayat → lihat profil).
 
-> 💡 Disarankan **minimal 100–300 foto per kelas** dengan variasi sudut & pencahayaan
-> agar model akurat. Untuk menambah kelas makanan baru, cukup buat folder baru di
-> `dataset/` dan tambahkan datanya di `nutrition_db.py`.
-
-### 3. Training model
-
+## Build APK (Tahap 11)
 ```bash
-cd src
-python train_model.py
+cd flutter_app
+flutter build apk --release
 ```
-
-Output: `model/nutriscan_model.keras`, `model/nutriscan_model.tflite`, `model/labels.txt`
-
-### 4. Uji prediksi dari foto
-
-```bash
-python predict.py path/ke/foto_makanan.jpg
-```
-
-atau versi TFLite (mensimulasikan cara kerja di aplikasi mobile):
-
-```bash
-python predict_tflite.py path/ke/foto_makanan.jpg
-```
-
-Contoh output:
-
-```
-==================================================
-HASIL ANALISIS NUTRISCAN AI
-==================================================
-Makanan terdeteksi : Ayam Goreng
-Tingkat keyakinan  : 94.32%
-Porsi              : 1 potong (±150g)
---------------------------------------------------
-Kalori             : 320 kkal
-Karbohidrat        : 8 g
-Protein            : 28 g
-Lemak              : 20 g
-Serat              : 0 g
-Gula               : 0 g
-Natrium            : 480 mg
---------------------------------------------------
-Kategori           : Protein tinggi
-Catatan kesehatan  : Sumber protein baik, namun tinggi lemak jenuh akibat proses goreng.
-==================================================
-```
-
-Hasil juga otomatis disimpan sebagai JSON di `output/hasil_prediksi.json` —
-format inilah yang nantinya dikonsumsi oleh aplikasi mobile (Android/iOS/Flutter).
-
----
-
-## 📱 Integrasi ke Aplikasi Mobile
-
-File `model/nutriscan_model.tflite` adalah output final yang dipakai di sisi mobile:
-
-- **Android**: gunakan library `TensorFlow Lite Support Library` / `ML Kit Custom Models`
-- **iOS**: gunakan `TensorFlow Lite Swift/Objective-C API`
-- **Flutter**: gunakan package `tflite_flutter`
-
-Alur di aplikasi:
-
-1. User membuka kamera & memotret makanan
-2. Foto diproses langsung di HP oleh model `.tflite` (tanpa perlu internet)
-3. Hasil klasifikasi dicocokkan ke database gizi (bisa disinkronkan dari `nutrition_db.py`
-   ke format JSON/Firebase agar mudah diakses aplikasi)
-4. Aplikasi menampilkan kalori, makro nutrien, dan catatan kesehatan ke user
-
----
-
-## 🔧 Pengembangan Lanjutan (Rekomendasi)
-
-- Ganti `nutrition_db.py` dengan data resmi dari **TKPI (Tabel Komposisi Pangan
-  Indonesia - Kemenkes)** atau **USDA FoodData Central** agar lebih akurat & lengkap.
-- Tambahkan **estimasi porsi otomatis** (misal pakai depth estimation atau referensi
-  ukuran piring) agar kalori dihitung sesuai porsi riil, bukan porsi standar.
-- Tambahkan fitur **deteksi multi-makanan dalam satu foto** (object detection,
-  misal YOLO) untuk piring dengan banyak jenis makanan sekaligus.
-- Tambahkan **riwayat asupan harian** dan rekomendasi pola makan berdasarkan
-  tujuan user (diet, bulking, dsb.).
-- Perbanyak dan pastikan dataset representatif (variasi makanan Nusantara,
-  angle foto, pencahayaan) agar model general dan tidak bias.
-
----
-
-## ⚠️ Catatan Penting
-
-- Kode ini adalah **prototipe/backbone ML**, bukan aplikasi mobile jadi. Untuk
-  aplikasi mobile utuh, model `.tflite` ini perlu diintegrasikan ke project
-  Android (Kotlin/Java) atau Flutter/React Native.
-- Model butuh **dataset foto makanan asli** (bukan dataset dummy) untuk hasil
-  yang akurat — kualitas model sangat bergantung pada kualitas & jumlah data training.
-  =======
-  NutriScan AI membantu pengguna menjaga pola makan sehat dengan memanfaatkan
-  **Image Recognition (Deep Learning)** untuk mengenali jenis makanan dari foto,
-  lalu menampilkan estimasi kandungan gizinya secara instan — tanpa perlu input
-  manual atau koneksi internet (inference berjalan langsung di perangkat).
-
----
-
-## 👥 Kontributor
-
-| Nama                       | Peran                                                                |
-| -------------------------- | -------------------------------------------------------------------- |
-| Ferry Chandra Yudhistira | Machine Learning Engineer — dataset, training model, evaluasi        |
-| Radot                    | Mobile Developer — desain UI/UX, integrasi model ke aplikasi Flutter |
-
----
-
-## 🧠 Cara Kerja Singkat
-
-1. Pengguna memfoto makanan lewat kamera aplikasi
-2. Model **MobileNetV2** (hasil transfer learning) mengklasifikasikan jenis makanan langsung di perangkat (on-device, offline)
-3. Hasil klasifikasi dicocokkan dengan database kandungan gizi
-4. Aplikasi menampilkan kalori, protein, karbohidrat, lemak, dan catatan kesehatan terkait
-
----
-
----
-
-## 🚀 Fitur
-
-- ✅ Deteksi jenis makanan dari foto menggunakan Deep Learning (Image Recognition)
-- ✅ Estimasi kandungan gizi otomatis (kalori, karbohidrat, protein, lemak, serat, gula, natrium)
-- ✅ Inference on-device — cepat, offline, dan menjaga privasi foto pengguna
-- ✅ Catatan kesehatan kontekstual untuk tiap makanan
-- 🔜 (rencana pengembangan) Riwayat asupan harian & rekomendasi pola makan
-
----
-
-## 🛠️ Tech Stack
-
-| Layer            | Teknologi                                                 |
-| ---------------- | --------------------------------------------------------- |
-| Machine Learning | Python, TensorFlow/Keras, MobileNetV2 (Transfer Learning) |
-| Model Deployment | TensorFlow Lite (TFLite)                                  |
-| Aplikasi Mobile  | Flutter, tflite_flutter                                   |
-
----
-
-## ⚙️ Cara Menjalankan Proyek
-
-### Bagian Machine Learning
-
-Lihat panduan lengkap di [`ml-model/README.md`](./ml-model/README.md) — mencakup cara menyiapkan dataset, training model, dan menghasilkan file `.tflite`.
-
-### Bagian Aplikasi Flutter
-
-Lihat panduan lengkap di [`flutter-app/README.md`](./flutter-app/README.md) — mencakup cara menjalankan aplikasi dan mengganti model bila ada versi baru.
-
----
-
-## 📌 Status Proyek
-
-Proyek ini merupakan bagian dari tugas kuliah Machine Learning.
-Model saat ini mengenali **5 jenis makanan**: Nasi Goreng, Ayam Goreng, Nasi Padang, Gado-Gado, dan Tempe Goreng, dengan akurasi validasi ±85%.
-
----
-
-## 📄 Lisensi
-[MIT License](LICENSE)
-7eb260404507bf4c0c4eafc78893ae5a775d253d
+File APK akan tersedia di `build/app/outputs/flutter-apk/app-release.apk`.

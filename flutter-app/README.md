@@ -50,7 +50,7 @@ Model, label, dan database gizi sudah termasuk sebagai *assets* bawaan (`assets/
 
 ## Rilis
 
-Lihat halaman [Releases](../../releases) untuk mengunduh versi APK yang sudah dibangun.
+Lihat halaman [Releases]((Fercip123/NutriScan-AI/releases)) untuk mengunduh versi APK yang sudah dibangun.
 
 ## To Be Added (TBA)
 

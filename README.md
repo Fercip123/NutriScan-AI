@@ -8,6 +8,9 @@ lalu menampilkan estimasi kandungan gizinya secara instan — tanpa perlu input
 manual atau koneksi internet (inference berjalan langsung di perangkat).
 
 ---
+## Rilis
+
+Lihat halaman [Releases](./realeases) untuk mengunduh versi APK yang sudah dibangun.
 
 ##  Kontributor
 

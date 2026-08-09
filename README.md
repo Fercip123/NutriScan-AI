@@ -10,7 +10,7 @@ manual atau koneksi internet (inference berjalan langsung di perangkat).
 ---
 ## Rilis
 
-Lihat halaman [Releases](./realeases) untuk mengunduh versi APK yang sudah dibangun.
+Lihat halaman [Releases](../../releases) untuk mengunduh versi APK yang sudah dibangun.
 
 ##  Kontributor
 

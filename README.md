@@ -39,7 +39,7 @@ nutriscan-ai/
 │
 ├── flutter-app/            # Bagian Aplikasi Mobile
 │   ├── lib/                  # Kode Dart aplikasi
-│   ├── assets/                # Model .tflite, labels.txt, nutrition_db.json
+│   ├── assets/model/                # Model .tflite, labels.txt, nutrition_db.json
 │   └── README.md               # Dokumentasi khusus bagian aplikasi
 │
 └── README.md                # Dokumentasi utama (file ini)

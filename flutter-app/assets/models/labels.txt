@@ -1,0 +1,5 @@
+ayam_goreng
+gado_gado
+nasi_goreng
+nasi_padang
+tempe_goreng
